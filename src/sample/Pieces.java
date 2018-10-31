@@ -21,7 +21,7 @@ public class Pieces extends JLabel {
         setOpaque(true);
     }
 
-
-
-
+    public Color getPieceColor() {
+        return pieceColor;
+    }
 }

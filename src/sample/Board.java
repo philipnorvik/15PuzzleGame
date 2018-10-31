@@ -58,6 +58,24 @@ public class Board extends JPanel {
 
     MouseAdapter mouseAdapter = new MouseAdapter() {
         @Override
+        public void mouseReleased(MouseEvent e) {
+            for (Pieces[] piecesArray : pieces) {
+                for (Pieces pieces1 : piecesArray) {
+                    if (e.getSource() == pieces1) {
+                        pieces1.setBackground(pieces1.getPieceColor());
+                        if (isMovable()) {
+                            slide();
+                            updatePuzzle();
+                            if (isSolved()) {
+                                JOptionPane.showMessageDialog(null, "Du vann!");
+                            }
+                            return;
+                        }
+                    }
+                }
+            }
+        };
+        @Override
         public void mousePressed(MouseEvent e) {
             for (int i = 1; i < pieces.length - 1; i++) {
                 for (int j = 1; j < pieces[i].length - 1; j++) {
@@ -71,33 +89,16 @@ public class Board extends JPanel {
         }
     };
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        for (Pieces[] pieces1 : pieces) {
-            for (Pieces pieces2 : pieces1) {
-                if (e.getSource() == pieces2) {
-                    pieces2.setBackground(pieces1.getPermanentColor());
-                    if (isMovable()) {
-                        slide();
-                        updatePuzzle();
-                        if (isSolved()) {
-                            JOptionPane.showMessageDialog(null, "Du vann!");
-                        }
-                        return;
-                    }
-                }
-            }
-        }
-    }
 
 
-}
+
+
     public void shuffle() {
-        int a = (int) Math.pow(yLength * xLength, 2);
+        int a = (int) Math.pow(y * x, 2);
         for (int i = 0; i <= a; i++) {
             while (!isMovable()) {
-                this.clickedY = (int) (Math.random() * yLength + 1);
-                this.clickedX = (int) (Math.random() * xLength + 1);
+                this.clickedY = (int) (Math.random() * y + 1);
+                this.clickedX = (int) (Math.random() * x + 1);
             }
             slide();
         }
@@ -110,7 +111,7 @@ public class Board extends JPanel {
     }
 
     private void slide() {
-        Pieces[] tempBrickor = new Bricka[Math.abs(clickedY-freeY + clickedX-freeX)];
+        Pieces[] tempBrickor = new Pieces[Math.abs(clickedY-freeY + clickedX-freeX)];
         int direction = 1;
         int step = 1;
 
@@ -122,7 +123,7 @@ public class Board extends JPanel {
         int counter = 0;
         if (clickedX == freeX) {
             for (int i = clickedY; i != freeY;) {
-                tempBrickor[counter] = brickor[i][freeX];
+                tempBrickor[counter] = pieces[i][freeX];
                 if (clickedY > freeY)
                     i--;
                 else
@@ -131,7 +132,7 @@ public class Board extends JPanel {
             }
         } else {
             for (int i = clickedX; i != freeX;) {
-                tempBrickor[counter] = brickor[freeY][i];
+                tempBrickor[counter] = pieces[freeY][i];
                 if (clickedX > freeX)
                     i--;
                 else
@@ -140,15 +141,15 @@ public class Board extends JPanel {
             }
         }
 
-        brickor[clickedY][clickedX] = brickor[freeY][freeX];
+        pieces [clickedY][clickedX] = pieces[freeY][freeX];
         if (clickedX == freeX) {
-            for (Bricka b : tempBrickor) {
-                brickor[clickedY+direction][freeX] = b;
+            for (Pieces b : tempBrickor) {
+                pieces[clickedY+direction][freeX] = b;
                 direction += step;
             }
         } else {
-            for (Bricka b : tempBrickor) {
-                brickor[freeY][clickedX+direction] = b;
+            for (Pieces b : tempBrickor) {
+                pieces[freeY][clickedX+direction] = b;
                 direction += step;
             }
         }
@@ -158,9 +159,9 @@ public class Board extends JPanel {
 
     private void updatePuzzle() {
         removeAll();
-        for (int i = 1; i < brickor.length - 1; i++) {
-            for (int j = 1; j < brickor[i].length - 1; j++) {
-                add(brickor[i][j]);
+        for (int i = 1; i < pieces.length - 1; i++) {
+            for (int j = 1; j < pieces[i].length - 1; j++) {
+                add(pieces[i][j]);
             }
         }
         revalidate();
@@ -169,9 +170,9 @@ public class Board extends JPanel {
 
     private boolean isSolved() {
         int x = 0;
-        for (int i = 1; i < brickor.length - 1; i++) {
-            for (int j = 1; j < brickor[i].length - 1 ; j++) {
-                if (!brickor[i][j].getText().equals(String.valueOf(++x)))
+        for (int i = 1; i < pieces.length - 1; i++) {
+            for (int j = 1; j < pieces[i].length - 1 ; j++) {
+                if (!pieces[i][j].getText().equals(String.valueOf(++x)))
                     return false;
             }
         }
