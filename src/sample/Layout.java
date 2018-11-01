@@ -8,23 +8,26 @@ public class Layout extends JPanel {
     int rows = 4;
     int collums = 4;
 
-    JPanel topPanel = new JPanel();
-    JPanel bottomPanel = new JPanel();
+
+    JPanel menuPanel = new JPanel();
 
 
-
-
+    /**
+     * knapp layout
+     * @param newGame
+     * @param exit
+     */
     public Layout(JButton newGame, JButton exit) {
 
-        topPanel.setLayout(new BorderLayout());
-        bottomPanel.setLayout(new GridLayout(3, 1));
-        bottomPanel.add(newGame);
-        bottomPanel.add(exit);
+        ;
+        menuPanel.setLayout(new GridLayout(3, 1));
+        menuPanel.add(newGame);
+        menuPanel.add(exit);
 
         setLayout(new GridLayout(2, 1));
 
-        add(topPanel);
-        add(bottomPanel);
+
+        add(menuPanel);
         setPreferredSize(new Dimension(100, 100));
 
     }

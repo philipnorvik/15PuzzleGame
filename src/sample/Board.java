@@ -8,8 +8,8 @@ import java.awt.event.MouseEvent;
 public class Board extends JPanel {
 
     Pieces[][] pieces;
-    int xSize;
-    int ySize;
+    int x;
+    int y;
     int freeX;
     int freeY;
     int clickedX;
@@ -17,15 +17,18 @@ public class Board extends JPanel {
 
 
     public Board(int rows, int collums) {
-        xSize = collums;
-        ySize = rows;
+        x = collums;
+        y = rows;
         setForm();
     }
 
+    /**
+     *
+     */
     private void setForm() {
-        pieces = new Pieces[xSize +2][ySize +2];
+        pieces = new Pieces[x+2][y+2];
         setSize(50, 50);
-        setLayout(new GridLayout(xSize, ySize, 2, 2));
+        setLayout(new GridLayout(x, y, 1, 1));
         setBackground(Color.ORANGE);
 
         for (Pieces[] row : pieces) {
@@ -33,33 +36,38 @@ public class Board extends JPanel {
                 row[i] = new Pieces();
             }
         }
-        placeTiles();
+        piecePlacement();
     }
 
-    private void placeTiles() {
+    /**
+     *
+     */
+    private void piecePlacement() {
         int a = 0;
         for (int i = 1; i < pieces.length - 1; i++) {
             for (int j = 1; j < pieces[i].length - 1; j++) {
                 pieces[i][j].setText(String.valueOf(++a));
                 if(i % 2 == 0){
                     if (j % 2 == 0) {
-                        pieces[i][j].setPieceColor(Color.WHITE);
+                        pieces[i][j].setPieceColor(Color.ORANGE);
+                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                    } else {
+                        pieces[i][j].setPieceColor(Color.ORANGE);
+                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
                     }
-                    else {
-                        pieces[i][j].setPieceColor(Color.GRAY);
-                    }
-                }
-                else {
+                } else {
                     if (j % 2 == 1) {
-                        pieces[i][j].setPieceColor(Color.WHITE);
-                    }
-                    else {
-                        pieces[i][j].setPieceColor(Color.GRAY);
+                        pieces[i][j].setPieceColor(Color.ORANGE);
+                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                    } else {
+                        pieces[i][j].setPieceColor(Color.ORANGE);
+                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
                     }
                 }
                 if ((j == pieces[i].length - 2) && (i == pieces.length - 2)) {
-                    pieces[i][j].setBackground(Color.GRAY);
-                    pieces[i][j].setText(String.valueOf(xSize * ySize));
+                    pieces[i][j].setBackground(Color.BLACK);
+                    pieces[i][j].setText("");
+                    pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.ORANGE));
                     freeY = i;
                     freeX = j;
                 } else {
@@ -107,17 +115,6 @@ public class Board extends JPanel {
         }
     };
 
-    public void newGame() {
-        int n = (int) Math.pow(ySize * xSize, 2);
-        for (int i = 0; i <= n; i++) {
-            while (!isMovable()) {
-                this.clickedY = (int) (Math.random() * ySize + 1);
-                this.clickedX = (int) (Math.random() * xSize + 1);
-            }
-            slide();
-        }
-        updatePuzzle();
-    }
 
     /**
      *
@@ -188,7 +185,17 @@ public class Board extends JPanel {
         revalidate();
         repaint();
     }
-
+    public void randomize() {
+        int a = (int) Math.pow(y * x, 2);
+        for (int i = 0; i <= a; i++) {
+            while (!isMovable()) {
+                this.clickedY = (int) (Math.random() * y + 1);
+                this.clickedX = (int) (Math.random() * x + 1);
+            }
+            slide();
+        }
+        updatePuzzle();
+    }
     protected boolean isSolved() {
         int x = 0;
         for (int i = 1; i < pieces.length - 1; i++) {
