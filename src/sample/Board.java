@@ -23,7 +23,7 @@ public class Board extends JPanel {
     }
 
     /**
-     *
+     * settar rutorna storlek och gap
      */
     private void setForm() {
         pieces = new Pieces[x+2][y+2];
@@ -40,13 +40,13 @@ public class Board extends JPanel {
     }
 
     /**
-     *
+     * lägger ut bitarna på board
      */
     private void piecePlacement() {
-        int a = 0;
+        int n = 0;
         for (int i = 1; i < pieces.length - 1; i++) {
             for (int j = 1; j < pieces[i].length - 1; j++) {
-                pieces[i][j].setText(String.valueOf(++a));
+                pieces[i][j].setText(String.valueOf(++n));
                 if(i % 2 == 0){
                     if (j % 2 == 0) {
                         pieces[i][j].setPieceColor(Color.ORANGE);
@@ -64,7 +64,7 @@ public class Board extends JPanel {
                         pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
                     }
                 }
-                if ((j == pieces[i].length - 2) && (i == pieces.length - 2)) {
+                if ((j == pieces[i].length - 2) && (i == pieces.length - 2)) {              //skapar den "tomma" rutan
                     pieces[i][j].setBackground(Color.BLACK);
                     pieces[i][j].setText("");
                     pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.ORANGE));
@@ -80,7 +80,7 @@ public class Board extends JPanel {
 
 
     /**
-     *
+     * flytta på bitarna när det finns en tom ruta
      */
     MouseAdapter mouseAdapter = new MouseAdapter() {
         @Override
@@ -101,6 +101,7 @@ public class Board extends JPanel {
                 }
             }
         };
+        // highlight den biten man trycker på
         @Override
         public void mousePressed(MouseEvent e) {
             for (int i = 1; i < pieces.length - 1; i++) {
@@ -117,7 +118,8 @@ public class Board extends JPanel {
 
 
     /**
-     *
+     * kontrollera om biten man har klickat på kan flytta sig
+     * att kolla om det går längs både x och y
      * @return
      */
     private boolean isMovable() {
@@ -126,7 +128,7 @@ public class Board extends JPanel {
     }
 
     /**
-     *
+      skapar en förflyning genom att byta ut delar
      */
     private void slide() {
         Pieces[] tempPiece = new Pieces[Math.abs(clickedY-freeY + clickedX-freeX)];
@@ -185,6 +187,7 @@ public class Board extends JPanel {
         revalidate();
         repaint();
     }
+
     public void randomize() {
         int a = (int) Math.pow(y * x, 2);
         for (int i = 0; i <= a; i++) {
@@ -196,6 +199,11 @@ public class Board extends JPanel {
         }
         updatePuzzle();
     }
+
+    /**
+     * seger meddelande
+     * @return
+     */
     protected boolean isSolved() {
         int x = 0;
         for (int i = 1; i < pieces.length - 1; i++) {
