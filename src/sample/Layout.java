@@ -9,7 +9,7 @@ public class Layout extends JPanel {
     int collums = 4;
 
     JPanel topPanel = new JPanel();
-    JPanel botPanel = new JPanel();
+    JPanel bottomPanel = new JPanel();
 
 
 
@@ -17,16 +17,15 @@ public class Layout extends JPanel {
     public Layout(JButton newGame, JButton exit) {
 
         topPanel.setLayout(new BorderLayout());
-        botPanel.setLayout(new GridLayout(3, 1));
-        botPanel.add(newGame);
-        botPanel.add(exit);
+        bottomPanel.setLayout(new GridLayout(3, 1));
+        bottomPanel.add(newGame);
+        bottomPanel.add(exit);
 
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridLayout(2, 1));
 
         add(topPanel);
-
-        add(botPanel);
-        setPreferredSize(new Dimension(150, 0));
+        add(bottomPanel);
+        setPreferredSize(new Dimension(100, 100));
 
     }
 
