@@ -7,15 +7,15 @@ public class Pieces extends JLabel {
 
     protected Color pieceColor;
 
+
     public Pieces(){
         setForm();
     }
 
     /**
      * vilken färg den ska ha
-     * @param pieceColor
      */
-    public void setPieceColor(Color pieceColor){
+    public void setPieceColor(){
         this.setBackground(Color.ORANGE);
     }
 

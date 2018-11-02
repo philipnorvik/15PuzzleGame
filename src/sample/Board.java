@@ -26,7 +26,7 @@ public class Board extends JPanel {
      * settar rutorna storlek och gap
      */
     private void setForm() {
-        pieces = new Pieces[x+2][y+2];
+        pieces = new Pieces[6][6];
         setSize(50, 50);
         setLayout(new GridLayout(x, y, 1, 1));
         setBackground(Color.ORANGE);
@@ -47,8 +47,8 @@ public class Board extends JPanel {
         for (int i = 1; i < pieces.length - 1; i++) {
             for (int j = 1; j < pieces[i].length - 1; j++) {
                 pieces[i][j].setText(String.valueOf(++n));
-                pieces[i][j].setPieceColor(Color.ORANGE);
-                pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                pieces[i][j].setPieceColor();
+                pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
                 if ((j == pieces[i].length - 2) && (i == pieces.length - 2)) {              //skapar den "tomma" rutan
                     pieces[i][j].setBackground(Color.BLACK);
@@ -88,7 +88,7 @@ public class Board extends JPanel {
                 }
             }
         };
-        // highlight den biten man trycker på
+        // sett
         @Override
         public void mousePressed(MouseEvent e) {
             for (int i = 1; i < pieces.length - 1; i++) {
@@ -115,7 +115,7 @@ public class Board extends JPanel {
     }
 
     /**
-      skapar en förflyning genom att byta ut delar
+      kollar om clicked värdet är tillåltet för rörelse
      */
     protected void slide() {
         Pieces[] tempPiece = new Pieces[Math.abs(clickedY-freeY + clickedX-freeX)];
@@ -188,7 +188,8 @@ public class Board extends JPanel {
     }
 
     /**
-     * seger meddelande
+     *kollar att värden är i turordning
+     *
      * @return
      */
     protected boolean isSolved() {
