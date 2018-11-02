@@ -47,30 +47,17 @@ public class Board extends JPanel {
         for (int i = 1; i < pieces.length - 1; i++) {
             for (int j = 1; j < pieces[i].length - 1; j++) {
                 pieces[i][j].setText(String.valueOf(++n));
-                if(i % 2 == 0){
-                    if (j % 2 == 0) {
-                        pieces[i][j].setPieceColor(Color.ORANGE);
-                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                    } else {
-                        pieces[i][j].setPieceColor(Color.ORANGE);
-                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                    }
-                } else {
-                    if (j % 2 == 1) {
-                        pieces[i][j].setPieceColor(Color.ORANGE);
-                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                    } else {
-                        pieces[i][j].setPieceColor(Color.ORANGE);
-                        pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                    }
-                }
+                pieces[i][j].setPieceColor(Color.ORANGE);
+                pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+
                 if ((j == pieces[i].length - 2) && (i == pieces.length - 2)) {              //skapar den "tomma" rutan
                     pieces[i][j].setBackground(Color.BLACK);
                     pieces[i][j].setText("");
                     pieces[i][j].setBorder(BorderFactory.createLineBorder(Color.ORANGE));
                     freeY = i;
                     freeX = j;
-                } else {
+                }
+                else {
                     pieces[i][j].addMouseListener(mouseAdapter);
                 }
                 add(pieces[i][j]);
@@ -122,7 +109,7 @@ public class Board extends JPanel {
      * att kolla om det går längs både x och y
      * @return
      */
-    private boolean isMovable() {
+    protected boolean isMovable() {
         return ((clickedX < freeX || clickedX > freeX) && (clickedY == freeY))
                 || ((clickedY < freeY || clickedY > freeY) && (clickedX == freeX));
     }
@@ -130,7 +117,7 @@ public class Board extends JPanel {
     /**
       skapar en förflyning genom att byta ut delar
      */
-    private void slide() {
+    protected void slide() {
         Pieces[] tempPiece = new Pieces[Math.abs(clickedY-freeY + clickedX-freeX)];
         int direction = 1;
         int step = 1;
